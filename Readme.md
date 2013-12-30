@@ -25,11 +25,13 @@ This will create a initializer `carrierwave_encrypter_decrypter`
 
 Now in your Uploader for eg `app/uploaders/avatar_uploader.rb` add the after store callback
 
-
-	after :store, :encrypt_file
 	
-	def encrypt_file(file)
-  	  Carrierwave::EncrypterDecrypter::Uploader.encrypt(self)
+	class AvatarUploader < CarrierWave::Uploader::Base
+		after :store, :encrypt_file
+	
+		def encrypt_file(file)
+  	  		Carrierwave::EncrypterDecrypter::Uploader.encrypt(self)
+		end
 	end
 
 Now create the migration on the model on which your uploader is mounted
