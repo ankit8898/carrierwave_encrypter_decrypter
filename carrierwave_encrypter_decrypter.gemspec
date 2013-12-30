@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.files       = [
                     "lib/carrierwave/encrypter_decrypter/encryption.rb",
                     "lib/carrierwave/encrypter_decrypter/uploader.rb",
+                    "lib/carrierwave/encrypter_decrypter/downloader.rb",
                     "lib/carrierwave/encrypter_decrypter/configuration.rb",
                     "lib/carrierwave/encrypter_decrypter/version.rb",
                     "lib/carrierwave/encrypter_decrypter/openssl/aes.rb",
