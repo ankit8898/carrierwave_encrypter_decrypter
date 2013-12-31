@@ -1,10 +1,15 @@
-**Note:** Gem Work in progress :pray: will be completed by 31st Dec 2013 
-
 # Carrierwave Encrypter Decrypter
 
-A Rubygem to secure the file uploaded by encrypting the data and decryption on the fly.  Completely secure and depends on Ruby 2.0.0 OpenSSL::Cipher and OpenSSL::PKCS5
+A Rubygem to secure the file uploaded by encrypting the file later on decrypting when needed.  Completely secure and depends on Ruby 2.0.0 OpenSSL::Cipher and OpenSSL::PKCS5
 
 
+OpenSSL::Cipher
+
+Provides symmetric algorithms for encryption and decryption. 
+
+OpenSSL::PKCS5
+
+Provides password-based encryption functionality based on PKCS#5. 
 
 ## Installation
 
@@ -24,6 +29,32 @@ Start off by trigerring the installer
 This will create a initializer `carrierwave_encrypter_decrypter`
 
     create  config/initializers/carrierwave_encrypter_decrypter.rb
+
+and a `carrierwave_encrypter_decrypter.yml`
+
+	create  config/carrierwave_encrypter_decrypter.yml
+
+the above will be used when you have the `encryption_type` as `pkcs5`.
+
+## Choosing encryption type?
+
+The Gem support 2 ways **[OpenSSL::Cipher](http://ruby-doc.org/stdlib-2.0/libdoc/openssl/rdoc/OpenSSL/Cipher.html)** and **[OpenSSL::PKCS5](http://ruby-doc.org/stdlib-2.0/libdoc/openssl/rdoc/OpenSSL/PKCS5.html)**
+
+if you want to go with standard encryption in your `config/initializers/carrierwave_encrypter_decrypter.rb` select
+
+	Carrierwave::EncrypterDecrypter.configure  do |config|
+      config.encryption_type = :aes
+      config.key_size = 256
+ 	end
+
+if you want to go with password based encrption (pkcs5) in your `config/initializers/carrierwave_encrypter_decrypter.rb` select
+	
+	Carrierwave::EncrypterDecrypter.configure  do |config|
+      config.encryption_type = :pkcs5
+      config.key_size = 256
+ 	end
+
+**Note:** Make sure you have the password set in `config/carrierwave_encrypter_decrypter.yml`
 
 
 Now in your Uploader for eg `app/uploaders/avatar_uploader.rb` add the after store callback
