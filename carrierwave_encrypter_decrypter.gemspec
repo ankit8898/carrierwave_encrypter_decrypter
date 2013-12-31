@@ -6,7 +6,7 @@ require "carrierwave/encrypter_decrypter/version"
 Gem::Specification.new do |s|
   s.name        = 'carrierwave_encrypter_decrypter'
   s.version     = CarrierwaveEncrypterDecrypter::VERSION
-  s.date        = '2013-12-30'
+  s.date        = '2013-12-31'
   s.summary     = "Secure the files that you upload with carrierwave"
   s.description = "A library for encrypting and decrypting uploaded files.  Supports Ruby OpenSSL::Cipher and OpenSSL::PKCS5 Strategies."
   s.authors     = ["Ankit gupta"]

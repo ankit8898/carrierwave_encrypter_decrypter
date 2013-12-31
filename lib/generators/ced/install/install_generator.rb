@@ -13,8 +13,8 @@ module Ced
     config.key_size = 256
 
     #This strategy is applicable when you want to have the pkcs5 (Password based encryption)
-    config.encryption_type = :pkcs5
-    config.key_size = 256
+    #config.encryption_type = :pkcs5
+    #config.key_size = 256
  end
 "
 				end
