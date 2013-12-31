@@ -8,18 +8,11 @@ Gem::Specification.new do |s|
   s.version     = CarrierwaveEncrypterDecrypter::VERSION
   s.date        = '2013-12-30'
   s.summary     = "Secure the files that you upload with carrierwave"
-  s.description = "A library supporting Ruby OpenSSL::Cipher and OpenSSL::PKCS5 for the file encryption and decryption"
+  s.description = "A library for encrypting and decrypting uploaded files.  Supports Ruby OpenSSL::Cipher and OpenSSL::PKCS5 Strategies."
   s.authors     = ["Ankit gupta"]
   s.email       = 'ankit.gupta8898@gmail.com'
-  s.files       = [
-                    "lib/carrierwave/encrypter_decrypter/encryption.rb",
-                    "lib/carrierwave/encrypter_decrypter/uploader.rb",
-                    "lib/carrierwave/encrypter_decrypter/downloader.rb",
-                    "lib/carrierwave/encrypter_decrypter/decryption.rb",
-                    "lib/carrierwave/encrypter_decrypter/configuration.rb",
-                    "lib/carrierwave/encrypter_decrypter/version.rb",
-                    "lib/carrierwave/encrypter_decrypter/openssl/aes.rb",
-                    "lib/carrierwave_encrypter_decrypter.rb"]
+  s.files       = `git ls-files -- lib/*`.split("\n")
+  s.files       += %w[Readme.md]
   s.require_paths = ["lib"]
   s.licenses    = ['MIT']
   s.rubygems_version = "2.0.6"

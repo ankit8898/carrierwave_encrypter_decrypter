@@ -1,4 +1,5 @@
 require 'carrierwave/encrypter_decrypter/openssl/aes'
+require 'carrierwave/encrypter_decrypter/openssl/pkcs5'
 
 class Encryption
 	def self.start!(obj)
@@ -7,6 +8,8 @@ class Encryption
 		case encryption_type
 		when :aes
 			Openssl::Aes.encrypt_for(obj)
+		when :pkcs5
+			Openssl::Pkcs5.encrypt_for(obj)
 		end
 	end
 end

@@ -1,0 +1,9 @@
+#This file is required by carrierwave_encrypter_decrypter gem.
+#The password that is set will be used if you have the encryption_type as pkcs5.
+#This will enable the password based encryption.
+
+development:
+  pkcs5_password: "Secret"
+
+production:
+  pkcs5_password: "Secret"
