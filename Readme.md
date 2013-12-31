@@ -3,11 +3,11 @@
 A Rubygem to secure the file uploaded by encrypting the file later on decrypting when needed.  Completely secure and depends on Ruby 2.0.0 OpenSSL::Cipher and OpenSSL::PKCS5
 
 
-OpenSSL::Cipher
+**OpenSSL::Cipher**
 
 Provides symmetric algorithms for encryption and decryption. 
 
-OpenSSL::PKCS5
+**OpenSSL::PKCS5**
 
 Provides password-based encryption functionality based on PKCS#5. 
 
