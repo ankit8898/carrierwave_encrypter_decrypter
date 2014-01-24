@@ -3,6 +3,7 @@
 
 A Rubygem to secure the file uploaded by encrypting the file later on decrypting when needed.  Completely secure and depends on Ruby 2.0.0 OpenSSL::Cipher and OpenSSL::PKCS5
 
+You can find a [Sample application with usage here](https://github.com/ankit8898/carrierwave_encrypter_decrypter_example).
 
 **OpenSSL::Cipher**
 
