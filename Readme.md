@@ -1,4 +1,5 @@
-[![Gem Version](https://badge.fury.io/rb/carrierwave_encrypter_decrypter.png)](http://badge.fury.io/rb/carrierwave_encrypter_decrypter)
+[![Gem Version](https://badge.fury.io/rb/carrierwave_encrypter_decrypter.png)](http://badge.fury.io/rb/carrierwave_encrypter_decrypter)[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/ankit8898/carrierwave_encrypter_decrypter/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
 # Carrierwave Encrypter Decrypter
 
 A Rubygem to secure the file uploaded by encrypting the file later on decrypting when needed.  Completely secure and depends on Ruby 2.0.0 OpenSSL::Cipher and OpenSSL::PKCS5
