@@ -90,10 +90,10 @@ The File Decryption will happen with
 
 Where `Model` is the model on which the uploader is mounted.  The Encrypted file will be decrypted in the same folder.
 
-Eg Controller
+**Eg Controller**
 
 	def download
-	  #This will decryt the file first
+	  #This will decrpyt the file first
 
 	  Carrierwave::EncrypterDecrypter::Downloader.decrypt(@user,mounted_as: :avatar)
 
