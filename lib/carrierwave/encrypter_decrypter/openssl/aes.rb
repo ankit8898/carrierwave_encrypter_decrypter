@@ -40,8 +40,8 @@ module Openssl
 				cipher.key = model.key
 				buf = ""
 				
-				original_file_path =  obj.send(mounted_as).root + obj.send(mounted_as).url 
-  				encrypted_file_path =  obj.send(mounted_as).root + obj.send(mounted_as).url  + ".enc"
+				original_file_path =  obj.send(mounted_as).root + URI.unescape(obj.send(mounted_as).url)
+  				encrypted_file_path =  obj.send(mounted_as).root + URI.unescape(obj.send(mounted_as).url)  + ".enc"
 
 				File.open(original_file_path, "wb") do |outf|
 					File.open(encrypted_file_path, "rb") do |inf|
