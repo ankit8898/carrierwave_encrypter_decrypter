@@ -15,4 +15,3 @@ module Ced
     end
   end
 end
-

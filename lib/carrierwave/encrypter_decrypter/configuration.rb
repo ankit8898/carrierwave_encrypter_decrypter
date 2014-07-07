@@ -1,15 +1,15 @@
 module Carrierwave
-	module EncrypterDecrypter
-			def self.configure
-				yield configuration
-			end
+  module EncrypterDecrypter
+    def self.configure
+      yield configuration
+    end
 
-			def self.configuration
-				@configuration ||= Carrierwave::EncrypterDecrypter::Configuration.new
-			end
+    def self.configuration
+      @configuration ||= Carrierwave::EncrypterDecrypter::Configuration.new
+    end
 
-			class Configuration
-				attr_accessor  :encryption_type, :key_size
-			end
-		end
+    class Configuration
+      attr_accessor  :encryption_type, :key_size
+    end
+  end
 end
