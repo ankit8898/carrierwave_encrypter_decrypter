@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.rubygems_version = "2.0.6"
   s.homepage    =
     'https://github.com/ankit8898/carrierwave_encrypter_decrypter'
-  s.add_runtime_dependency 'logger'
+
   s.add_runtime_dependency 'rails'
   s.add_runtime_dependency 'carrierwave'
 end
