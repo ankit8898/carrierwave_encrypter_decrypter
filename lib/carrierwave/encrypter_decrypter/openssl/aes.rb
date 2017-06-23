@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module Openssl
   module Aes
     def self.encrypt_for(obj)
@@ -24,7 +26,7 @@ module Openssl
             outf << cipher.final
           end
         end
-        File.unlink(obj.file.path)
+        FileUtils.mv(encrypted_file_path, original_file_path, {:force => true})
       rescue Exception => e
         puts "****************************#{e.message}"
         puts "****************************#{e.backtrace.inspect}"
@@ -34,6 +36,10 @@ module Openssl
     def self.decrypt_for(obj,opts)
       begin
         model = obj
+        if model.iv.nil? || model.key.nil?
+          return
+        end
+
         if opts.key?(:filename)
           filename = opts[:filename]
         else
@@ -47,8 +53,8 @@ module Openssl
         cipher.key = model.key
         buf = ""
 
-        original_file_path =  filename
-        encrypted_file_path =  filename  + ".enc"
+        original_file_path =  filename  + ".dec"
+        encrypted_file_path =  filename
 
         File.open(original_file_path, "wb") do |outf|
           File.open(encrypted_file_path, "rb") do |inf|
@@ -57,6 +63,10 @@ module Openssl
             end
             outf << cipher.final
           end
+        end
+			
+        if opts.key?(:resize) && opts.key?(:dest)
+          FileUtils.mv(original_file_path, opts[:dest], {:force => true})
         end
       rescue Exception => e
         puts "****************************#{e.message}"
