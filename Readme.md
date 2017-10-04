@@ -8,34 +8,44 @@ You can find a [Sample application with usage here](https://github.com/ankit8898
 
 **OpenSSL::Cipher**
 
-Provides symmetric algorithms for encryption and decryption. 
+Provides symmetric algorithms for encryption and decryption.
 
 **OpenSSL::PKCS5**
 
-Provides password-based encryption functionality based on PKCS#5. 
+Provides password-based encryption functionality based on PKCS#5.
 
 ## Installation
 
 Add the gem to the Gemfile:
 
-    gem "carrierwave_encrypter_decrypter"    
+```ruby
+gem 'carrierwave_encrypter_decrypter'
+```
 
+```ruby
 bundle install
+```
 
 ## Getting Started
 
 Start off by trigerring the installer
 
-	rails g ced:install
+```ruby
+rails g ced:install
+```
 
 
 This will create a initializer `carrierwave_encrypter_decrypter`
 
-    create  config/initializers/carrierwave_encrypter_decrypter.rb
+```ruby
+create config/initializers/carrierwave_encrypter_decrypter.rb
+```
 
 and a `carrierwave_encrypter_decrypter.yml`
 
-	create  config/carrierwave_encrypter_decrypter.yml
+```ruby
+create  config/carrierwave_encrypter_decrypter.yml
+```
 
 the above will be used when you have the `encryption_type` as `pkcs5`.
 
@@ -45,36 +55,43 @@ The Gem support 2 ways **[OpenSSL::Cipher](http://ruby-doc.org/stdlib-2.0/libdoc
 
 if you want to go with standard encryption in your `config/initializers/carrierwave_encrypter_decrypter.rb` select
 
-	Carrierwave::EncrypterDecrypter.configure  do |config|
-      config.encryption_type = :aes
-      config.key_size = 256
- 	end
+```ruby
+Carrierwave::EncrypterDecrypter.configure  do |config|
+  config.encryption_type = :aes
+  config.key_size = 256
+end
+```
 
 if you want to go with password based encrption (pkcs5) in your `config/initializers/carrierwave_encrypter_decrypter.rb` select
-	
-	Carrierwave::EncrypterDecrypter.configure  do |config|
-      config.encryption_type = :pkcs5
-      config.key_size = 256
- 	end
+
+```ruby
+Carrierwave::EncrypterDecrypter.configure  do |config|
+    config.encryption_type = :pkcs5
+    config.key_size = 256
+	end
+```
 
 **Note:** Make sure you have the password set in `config/carrierwave_encrypter_decrypter.yml`
 
 
 Now in your Uploader for eg `app/uploaders/avatar_uploader.rb` add the after store callback
 
-	
-	class AvatarUploader < CarrierWave::Uploader::Base
-		after :store, :encrypt_file
-	
-		def encrypt_file(file)
-  	  		Carrierwave::EncrypterDecrypter::Uploader.encrypt(self)
-		end
+```ruby
+class AvatarUploader < CarrierWave::Uploader::Base
+	after :store, :encrypt_file
+
+	def encrypt_file(file)
+	  Carrierwave::EncrypterDecrypter::Uploader.encrypt(self)
 	end
+end
+```
 
 Now create the migration on the model on which your uploader is mounted
 
-	rails g migration add_iv_and_key_to_users iv:binary key:binary
-	rake db:migrate
+```ruby
+rails g migration add_iv_and_key_to_users iv:binary key:binary
+rake db:migrate
+```
 
 **File Encryption**
 
@@ -84,27 +101,30 @@ The File encryption will happen with `Carrierwave::EncrypterDecrypter::Uploader.
 **File Decryption**
 
 
-The File Decryption will happen with 
+The File Decryption will happen with
 
-	Carrierwave::EncrypterDecrypter::Downloader.decrypt(model,mounted_as: :avatar)
+```ruby
+Carrierwave::EncrypterDecrypter::Downloader.decrypt(model,mounted_as: :avatar)
+```
 
 Where `Model` is the model on which the uploader is mounted.  The Encrypted file will be decrypted in the same folder.
 
 **Eg Controller**
 
-	def download
-	  #This will decrpyt the file first
+```ruby
+def download
+  #This will decrpyt the file first
 
-	  Carrierwave::EncrypterDecrypter::Downloader.decrypt(@user,mounted_as: :avatar)
+  Carrierwave::EncrypterDecrypter::Downloader.decrypt(@user, mounted_as: :avatar)
 
-	  file_path = @user.avatar.path
-	    File.open(file_path, 'r') do |f|
-	      send_data f.read, type: MIME::Types.type_for(file_path).first.content_type,disposition: :inline,:filename => File.basename(file_path)
-	  end
-	    #This is to remove the decrypted file after transfer
-	    File.unlink(file_path)
-	end
-
+  file_path = @user.avatar.path
+    File.open(file_path, 'r') do |f|
+      send_data f.read, type: MIME::Types.type_for(file_path).first.content_type,disposition: :inline,:filename => File.basename(file_path)
+  end
+    #This is to remove the decrypted file after transfer
+    File.unlink(file_path)
+end
+```
 
 
 ## Licensing
