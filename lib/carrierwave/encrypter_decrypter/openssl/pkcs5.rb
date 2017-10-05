@@ -5,16 +5,17 @@ module Openssl
       begin
         config = YAML.load_file("#{Rails.root}/config/carrierwave_encrypter_decrypter.yml")[Rails.env]
         model = obj.model
-        mounted_as = obj.mounted_as
 
         cipher = OpenSSL::Cipher.new("AES-#{Carrierwave::EncrypterDecrypter.configuration.key_size}-CBC")
         cipher.encrypt
-        iv = cipher.random_iv
+
+        iv = model.iv || cipher.random_iv
         model.iv = iv
+        cipher.iv = iv
 
         pwd = config['pkcs5_password']
 
-        salt = OpenSSL::Random.random_bytes 16
+        salt = model.key || OpenSSL::Random.random_bytes(16)
 
         model.key = salt
 
@@ -28,19 +29,19 @@ module Openssl
 
         original_file_path = File.expand_path(obj.store_path, obj.root)
         encrypted_file_path = File.expand_path(obj.store_path, obj.root) + ".enc"
-        model.save!
+        model.save! if model.key_changed? || model.iv_changed?
 
 
         buf = ""
         File.open(encrypted_file_path, "wb") do |outf|
-          File.open(model.send(mounted_as).path, "rb") do |inf|
+          File.open(model.file.path, "rb") do |inf|
             while inf.read(4096, buf)
               outf << cipher.update(buf)
             end
             outf << cipher.final
           end
         end
-        File.unlink(model.send(mounted_as).path)
+        File.unlink(model.file.path)
       rescue Exception => e
         puts "****************************#{e.message}"
         puts "****************************#{e.backtrace.inspect}"
@@ -51,7 +52,13 @@ module Openssl
       begin
         config = YAML.load_file("#{Rails.root}/config/carrierwave_encrypter_decrypter.yml")[Rails.env]
         model = obj
-        mounted_as = opts[:mounted_as]
+
+        if opt.key?(:filename)
+          filename = opts[:filename]
+        else
+          mounted_as = opts[:mounted_as]
+          filename = obj.send(mounted_as).root + obj.send(mounted_as).url
+        end
 
         cipher = OpenSSL::Cipher.new("AES-#{Carrierwave::EncrypterDecrypter.configuration.key_size}-CBC")
         cipher.decrypt
@@ -67,8 +74,8 @@ module Openssl
         key = OpenSSL::PKCS5.pbkdf2_hmac(pwd, salt, iter, key_len, digest)
         cipher.key = key
 
-        original_file_path =  obj.send(mounted_as).root + obj.send(mounted_as).url
-        encrypted_file_path =  obj.send(mounted_as).root + obj.send(mounted_as).url  + ".enc"
+        original_file_path = filename
+        encrypted_file_path = filename + ".enc"
 
         buf = ""
 
