@@ -67,8 +67,8 @@ module Openssl
         key = OpenSSL::PKCS5.pbkdf2_hmac(pwd, salt, iter, key_len, digest)
         cipher.key = key
 
-        original_file_path =  obj.send(mounted_as).root + obj.send(mounted_as).url
-        encrypted_file_path =  obj.send(mounted_as).root + obj.send(mounted_as).url  + ".enc"
+        original_file_path = obj.send(mounted_as).path
+        encrypted_file_path = obj.send(mounted_as).path  + ".enc"
 
         buf = ""
 
