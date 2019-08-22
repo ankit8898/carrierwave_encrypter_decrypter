@@ -53,8 +53,8 @@ module Openssl
         cipher.key = model.key
         buf = ""
 
-        original_file_path =  filename  + ".dec"
-        encrypted_file_path =  filename
+        original_file_path =  filename
+        encrypted_file_path =  filename  + ".dec"
 
         File.open(original_file_path, "wb") do |outf|
           File.open(encrypted_file_path, "rb") do |inf|
